@@ -3,7 +3,7 @@ package models
 import "time"
 
 type Order struct {
-	Id             int       `json:"Id" gorm:"type:INT(10) UNSIGNED NOT NULL AUTO_INCREMENT;primaryKey"`
+	ID             int       `json:"id" gorm:"autoIncrement;primaryKey"`
 	CashierID      int       `json:"cashierId"`
 	PaymentTypesId int       `json:"paymentTypesId"`
 	TotalPrice     int       `json:"totalPrice"`
@@ -18,7 +18,7 @@ type Order struct {
 }
 
 type ProductResponseOrder struct {
-	ProductId        int      `json:"productId" gorm:"type:INT(10) UNSIGNED NOT NULL AUTO_INCREMENT;primaryKey"`
+	ProductId        int      `json:"productId" gorm:"autoIncrement;primaryKey"`
 	Name             string   `json:"name"`
 	Price            int      `json:"price"`
 	Qty              int      `json:"qty"`
@@ -28,7 +28,7 @@ type ProductResponseOrder struct {
 }
 
 type ProductOrder struct {
-	Id         int    `json:"Id" gorm:"autoIncrement;primaryKey"`
+	ID         int    `json:"id" gorm:"autoIncrement;primaryKey"`
 	Sku        string `json:"sku"`
 	Name       string `json:"name"`
 	Stock      int    `json:"stock"`

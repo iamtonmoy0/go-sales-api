@@ -19,7 +19,7 @@ type Product struct {
 
 // product result
 type ProductResult struct {
-	Id       int      `json:"productId" gorm:"autoIncrement;primaryKey"`
+	ID       int      `json:"productId" gorm:"autoIncrement;primaryKey"`
 	Sku      string   `json:"sku"`
 	Name     string   `json:"name"`
 	Stock    int      `json:"stock"`
