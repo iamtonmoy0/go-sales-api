@@ -28,7 +28,7 @@ type ProductResponseOrder struct {
 }
 
 type ProductOrder struct {
-	Id         int    `json:"Id" gorm:"type:INT(10) UNSIGNED NOT NULL AUTO_INCREMENT;primaryKey"`
+	Id         int    `json:"Id" gorm:"autoIncrement;primaryKey"`
 	Sku        string `json:"sku"`
 	Name       string `json:"name"`
 	Stock      int    `json:"stock"`
