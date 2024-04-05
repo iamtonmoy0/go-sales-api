@@ -9,6 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	database "github.com/iamtonmoy0/go-sales-api/config"
 	"github.com/iamtonmoy0/go-sales-api/models"
+	"github.com/iamtonmoy0/go-sales-api/utils"
 	"gorm.io/gorm"
 )
 
@@ -19,6 +20,11 @@ func CreateCashierController(c *fiber.Ctx) error {
 	if err := c.BodyParser(&record); err != nil {
 		log.Fatal("failed to get data from the body")
 	}
+	hash, err := utils.HashPassword(record.Password)
+	if err != nil {
+		log.Fatal("failed to hash the pass", err)
+	}
+	record.Password = string(hash)
 	db.Create(record)
 	context := fiber.Map{"data": "", "msg": "cashier created successfully"}
 	c.Status(http.StatusOK).JSON(context)
