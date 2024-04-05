@@ -14,6 +14,6 @@ func SetupRoute(app *fiber.App) {
 	api.Put("/cashier/:id/update", controllers.UpdateCashierProfileController)
 	api.Put("/cashier/:id/delete", controllers.DeleteCashierProfileController)
 	// auth controller
-	api.Post("/cashier/:id/login", controllers.Login)
-	api.Get("/cashier/:id/logout", controllers.Logout)
+	api.Post("/cashier/login", controllers.Login)
+	api.Get("/cashier/logout", controllers.Logout)
 }

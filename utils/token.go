@@ -1,16 +1,18 @@
 package utils
 
 import (
-	// "strconv"
-	// "time"
+	"os"
+	"strconv"
+	"time"
 
-	// "github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt"
 )
 
-// func Token(secret string) {
-// 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-// 		"Issuer":    strconv.Itoa(int(cashier.Id)),
-// 		"ExpiresAt": time.Now().Add(time.Hour * 24).Unix(), //1 day
-// 	})
-// 	return token
-// }
+func GenerateToken(id int) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"Issuer":    strconv.Itoa(int(id)),
+		"ExpiresAt": time.Now().Add(time.Hour * 48).Unix(), //2 day
+	})
+	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	return tokenString, err
+}
