@@ -37,7 +37,7 @@ func GetAllCashierController(c *fiber.Ctx) error {
 
 	var records []models.Cashier
 
-	if err := db.Find(&records).Error; err != nil {
+	if err := db.Select("id, name, created_at, updated_at").Find(&records).Error; err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
@@ -56,7 +56,7 @@ func GetCashierProfileController(c *fiber.Ctx) error {
 	records := new(models.Cashier)
 	id := c.Params("id")
 
-	if err := db.First(&records, id).Error; err != nil {
+	if err := db.Select("id, name, created_at, updated_at").First(&records, id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return c.Status(http.StatusNotFound).JSON(fiber.Map{"msg": "no data found"})
 		}
