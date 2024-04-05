@@ -8,9 +8,13 @@ import (
 	"gorm.io/gorm"
 )
 
-// MigrateModels performs automatic migrations for all models
-func MigrateModels(db *gorm.DB) error {
-	if err := db.AutoMigrate(
+func Database() *gorm.DB {
+	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	db.AutoMigrate(
 		&models.Cashier{},
 		&models.Category{},
 		&models.Discount{},
@@ -23,24 +27,7 @@ func MigrateModels(db *gorm.DB) error {
 		&models.PaymentType{},
 		&models.Product{},
 		&models.ProductResult{},
-	); err != nil {
-		return err
-	}
-	return nil
-}
-
-// // DB initializes and returns a database connection
-func Database() *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Perform migrations
-	if err := MigrateModels(db); err != nil {
-		log.Fatal(err)
-	}
-	// db.AutoMigrate(&models.Product{})
+	)
 
 	return db
 }
