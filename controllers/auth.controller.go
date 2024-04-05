@@ -3,6 +3,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	database "github.com/iamtonmoy0/go-sales-api/config"
@@ -53,5 +54,19 @@ func Login(c *fiber.Ctx) error {
 
 // logout controller
 func Logout(c *fiber.Ctx) error {
-	return nil
+	// Clear the token from the client-side by setting an expired token
+	cookie := fiber.Cookie{
+		Name:     "jwt",
+		Value:    "",
+		Expires:  time.Now().Add(-time.Hour), // Expire immediately
+		HTTPOnly: true,
+	}
+
+	// Set the expired token cookie
+	c.Cookie(&cookie)
+
+	// Return a success response
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"msg": "Logout successful",
+	})
 }
