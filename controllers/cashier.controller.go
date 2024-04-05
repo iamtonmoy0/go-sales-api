@@ -61,6 +61,26 @@ func GetCashierProfileController(c *fiber.Ctx) error {
 
 // update cashier profile
 func UpdateCashierProfileController(c *fiber.Ctx) error {
+	db := database.Database()
+	id := c.Params("id")
+	record := new(models.Cashier)
+	db.First(&record, id)
+	context := fiber.Map{"msg": ""}
+	if record.ID == 0 {
+		context["msg"] = "no data found"
+		c.Status(http.StatusNotFound).JSON(context)
+	}
+	if err := c.BodyParser(&record); err != nil {
+		context["msg"] = "failed to parse request body"
+		return c.Status(http.StatusBadRequest).JSON(context)
+	}
+	result := db.Save(record)
+	if result.Error != nil {
+		context["msg"] = "an error occured while updating the data"
+		c.Status(http.StatusInternalServerError).JSON(context)
+	}
+	context["msg"] = "data updated successfully"
+	c.Status(http.StatusCreated).JSON(context)
 	return nil
 }
 

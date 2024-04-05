@@ -11,6 +11,7 @@ func SetupRoute(app *fiber.App) {
 	api.Get("/cashier", controllers.GetAllCashierController)
 	api.Post("/cashier", controllers.CreateCashierController)
 	api.Get("/cashier/:id", controllers.GetCashierProfileController)
+	api.Put("/cashier/:id/update", controllers.UpdateCashierProfileController)
 	// api.Post("/cashier/:id/login")
 	// api.Get("/cashier/:id/logout")
 }
