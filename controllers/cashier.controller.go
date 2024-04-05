@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -86,5 +87,18 @@ func UpdateCashierProfileController(c *fiber.Ctx) error {
 
 // delete cashier profile
 func DeleteCashierProfileController(c *fiber.Ctx) error {
+	db := database.Database()
+	context := fiber.Map{"msg": ""}
+	params := c.Params("id")
+	var record models.Cashier
+	db.First(&record, params)
+	if record.ID == 0 {
+		fmt.Println("no data found")
+		context["msg"] = "Data Not Found!"
+		return c.JSON(context)
+	}
+	db.Delete(&record)
+	context["msg"] = "deleted successful"
+	c.Status(200).JSON(context)
 	return nil
 }
