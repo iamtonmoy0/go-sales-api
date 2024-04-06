@@ -58,8 +58,33 @@ func GetSingleProductController(c *fiber.Ctx) error {
 }
 
 // update product
+
 func UpdateProductController(c *fiber.Ctx) error {
 	db := database.Database()
+	id := c.Params("id")
+	var oldRecord models.Product
+	var newRecord models.Product
+	if err := c.BodyParser(&newRecord); err != nil {
+		c.Status(http.StatusInternalServerError).JSON(fiber.Map{"msg": "failed to parse the data"})
+		return err
+	}
+	if err := db.Where("id = ?", id).First(&oldRecord).Error; err != nil {
+		c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"msg": "failed to find product with given id",
+			"err": err.Error(),
+		})
+		return err
+	}
+	if err := db.Model(&oldRecord).Updates(&newRecord).Error; err != nil {
+		c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"msg": "product not updated",
+			"err": err.Error(),
+		})
+		return err
+	}
+	c.Status(http.StatusOK).JSON(fiber.Map{
+		"msg": "successfully updated the product",
+	})
 	return nil
 }
 
