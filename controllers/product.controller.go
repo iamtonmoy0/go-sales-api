@@ -48,7 +48,7 @@ func GetSingleProductController(c *fiber.Ctx) error {
 	db := database.Database()
 	id := c.Params("id")
 	var record models.Product
-	result := db.Find(&record, id)
+	result := db.First(&record, id)
 	if result.Error != nil {
 		c.Status(http.StatusInternalServerError).JSON(fiber.Map{"msg": "failed to get the product"})
 		return nil
@@ -66,5 +66,12 @@ func UpdateProductController(c *fiber.Ctx) error {
 // delete product
 func DeleteProductController(c *fiber.Ctx) error {
 	db := database.Database()
+	id := c.Params("id")
+	var record models.Product
+	if err := db.First(&record, id).Delete(&record).Error; err != nil {
+		c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Record not found!"})
+		return nil
+	}
+	c.Status(http.StatusOK).SendString("The product has been deleted.")
 	return nil
 }
