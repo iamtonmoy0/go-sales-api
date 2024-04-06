@@ -16,4 +16,10 @@ func SetupRoute(app *fiber.App) {
 	// auth controller
 	api.Post("/cashier/login", controllers.Login)
 	api.Get("/cashier/logout", controllers.Logout)
+	// category router
+	api.Post("/category", controllers.CreateCategoryController)
+	api.Get("/category", controllers.GetAllCategoryController)
+	api.Get("/category/:id", controllers.GetSingleCategoryController)
+	api.Put("/category/:id/update", controllers.UpdateCategoryController)
+	api.Delete("/category/:id/delete", controllers.DeleteCategoryController)
 }
