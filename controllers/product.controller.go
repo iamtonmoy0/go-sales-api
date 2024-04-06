@@ -46,6 +46,14 @@ func GetAllProductController(c *fiber.Ctx) error {
 // get single product
 func GetSingleProductController(c *fiber.Ctx) error {
 	db := database.Database()
+	id := c.Params("id")
+	var record models.Product
+	result := db.Find(&record, id)
+	if result.Error != nil {
+		c.Status(http.StatusInternalServerError).JSON(fiber.Map{"msg": "failed to get the product"})
+		return nil
+	}
+	c.Status(http.StatusOK).JSON(result)
 	return nil
 }
 
