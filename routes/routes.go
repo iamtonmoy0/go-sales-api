@@ -13,7 +13,7 @@ func SetupRoute(app *fiber.App) {
 	api.Get("/cashier/:id", controllers.GetCashierProfileController)
 	api.Put("/cashier/:id/update", controllers.UpdateCashierProfileController)
 	api.Put("/cashier/:id/delete", controllers.DeleteCashierProfileController)
-	// auth controller
+	// auth router
 	api.Post("/cashier/login", controllers.Login)
 	api.Get("/cashier/logout", controllers.Logout)
 	// category router
@@ -28,4 +28,6 @@ func SetupRoute(app *fiber.App) {
 	api.Get("/product/:id", controllers.GetSingleProductController)
 	api.Put("/product/:id/update", controllers.UpdateCashierProfileController)
 	api.Delete("/product/:id/delete", controllers.DeleteProductController)
+	// order router
+	api.Post("/order", controllers.CreateOrderController)
 }
