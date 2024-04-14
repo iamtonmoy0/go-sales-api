@@ -28,6 +28,23 @@ func SetupRoute(app *fiber.App) {
 	api.Get("/product/:id", controllers.GetSingleProductController)
 	api.Put("/product/:id/update", controllers.UpdateCashierProfileController)
 	api.Delete("/product/:id/delete", controllers.DeleteProductController)
-	// order router
-	api.Post("/order", controllers.CreateOrderController)
+
+	//Payment routes
+	app.Get("/payments", controllers.PaymentList)
+	app.Get("/payments/:paymentId", controllers.GetPaymentDetails)
+	app.Post("/payments", controllers.CreatePayment)
+	app.Delete("/payments/:paymentId", controllers.DeletePayment)
+	app.Put("/payments/:paymentId", controllers.UpdatePayment)
+
+	//Order routes
+	app.Get("/orders", controllers.OrdersList)
+	app.Get("/orders/:orderId", controllers.OrderDetail)
+	app.Post("/orders", controllers.CreateOrderController)
+	// app.Post("/orders/subtotal", controllers.SubTotalOrder)
+	app.Get("/orders/:orderId/download", controllers.DownloadOrder)
+	app.Get("/orders/:orderId/check-download", controllers.CheckOrder)
+
+	//reports
+	app.Get("/revenues", controllers.GetRevenues)
+	app.Get("/solds", controllers.GetSolds)
 }
